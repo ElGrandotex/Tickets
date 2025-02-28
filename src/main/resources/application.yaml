@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: Tickets
+  datasource:
+    url: jdbc:postgresql://localhost:5433/Ticket
+    username: postgres
+    password: Partyrock123*
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
