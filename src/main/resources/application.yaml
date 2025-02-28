@@ -11,3 +11,5 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: update
+  jwt:
+    secret-key: "7gfMi2A2QfTD1eGg/N0D4GV5ueJ2m0v3KiiyU3RdoIY=:"
