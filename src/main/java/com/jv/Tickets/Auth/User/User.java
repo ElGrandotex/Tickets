@@ -23,7 +23,7 @@ public class User implements UserDetails {
     @GeneratedValue
     Integer id;
     String password;
-    String country;
+    String phone;
     String firstname;
     String lastname;
     @Enumerated(EnumType.STRING)

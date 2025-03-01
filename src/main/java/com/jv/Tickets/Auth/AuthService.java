@@ -38,13 +38,15 @@ public class AuthService {
     }
 
     public AuthResponse register(RegisterRequest request) {
+
+        Role role = request.isOrganizer ? Role.ORGANIZER : Role.USER;
         User user = User.builder()
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.password))
                 .firstname(request.getFirstname())
                 .lastname(request.getLastname())
-                .country(request.getCountry())
-                .role(Role.USER)
+                .phone(request.getPhone())
+                .role(role)
                 .build();
 
         userRepository.save(user);
