@@ -2,6 +2,7 @@ package com.jv.Tickets.Auth.User;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -45,5 +46,11 @@ public class UserService {
         userRepository.updateUser(user.id, user.firstname, user.lastname, user.phone);
 
         return new UserResponse("El usuario se ha actualizado correctamente");
+    }
+
+    public void delete(Integer id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+        userRepository.delete(user);
     }
 }
