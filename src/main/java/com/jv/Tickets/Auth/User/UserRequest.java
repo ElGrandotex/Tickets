@@ -15,4 +15,5 @@ public class UserRequest {
     String firstname;
     String lastname;
     String phone;
+    Boolean isOrganizer;
 }

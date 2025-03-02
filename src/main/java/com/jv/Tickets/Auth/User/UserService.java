@@ -21,31 +21,41 @@ public class UserService {
         User user = userRepository.findById(id).orElse(null);
 
         if(user != null) {
-            UserDTO userDTO = UserDTO.builder()
+            return UserDTO.builder()
                     .id(user.id)
                     .username(user.username)
                     .firstname(user.firstname)
                     .lastname(user.lastname)
                     .phone(user.phone)
                     .build();
-            return userDTO;
         }
         return null;
     }
 
     @Transactional
-    public UserResponse updateUser(UserRequest userRequest) {
-        User user = User.builder()
-                .id(userRequest.id)
-                .firstname(userRequest.getFirstname())
-                .lastname(userRequest.lastname)
-                .phone(userRequest.getPhone())
-                .role(Role.USER)
+    public UserDTO updateUser(UserRequest userRequest) {
+        User user = userRepository.findById(userRequest.id)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        user.setFirstname(userRequest.getFirstname());
+        user.setLastname(userRequest.getLastname());
+        user.setPhone(userRequest.getPhone());
+        user.setRole(userRequest.isOrganizer ? Role.ORGANIZER : Role.USER);
+
+        User updatedUser = userRepository.save(user);
+
+        return mapToUserResponse(updatedUser);
+    }
+
+    private UserDTO mapToUserResponse(User user) {
+        return UserDTO.builder()
+                .id(user.getId())
+                .username(user.getUsername())
+                .firstname(user.getFirstname())
+                .lastname(user.getLastname())
+                .phone(user.getPhone())
+                .role(String.valueOf(user.getRole()))
                 .build();
-
-        userRepository.updateUser(user.id, user.firstname, user.lastname, user.phone);
-
-        return new UserResponse("El usuario se ha actualizado correctamente");
     }
 
     public void delete(Integer id) {
